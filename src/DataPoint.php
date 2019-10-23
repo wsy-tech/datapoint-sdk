@@ -22,12 +22,13 @@ class DataPoint extends Client
 
     // 操作状态
     const OPERATE_STATUS_CREATED = 'CREATED';  //创建
-    const OPERATE_STATUS_SYNC = 'SYNC';        //同步
     const OPERATE_STATUS_UP = 'UP';            //上架
     const OPERATE_STATUS_DOWN = 'DOWN';        //下架
     const OPERATE_STATUS_PAYED = 'PAYED';      //支付
-    const OPERATE_STATUS_SEND = 'SEND';        //发货
-    const OPERATE_STATUS_CANCLE = 'CANCLE';    //取消
+    const OPERATE_STATUS_SEND = 'SENT';        //发货
+    const OPERATE_STATUS_SENT = 'SENT';        //发货
+    const OPERATE_STATUS_CANCLE = 'CANCEL';    //取消
+    const OPERATE_STATUS_CANCEL = 'CANCEL';    //取消
     const OPERATE_STATUS_CLOSED = 'CLOSED';    //关闭
 
     /**
@@ -48,7 +49,7 @@ class DataPoint extends Client
     public function batchGoodsPoint($param)
     {
         $response = $this->sendRequest(new Goods($param));
-        if ($response->getStatusCode() == 200) {
+        if ($response && $response->getStatusCode() == 200) {
             $result = json_decode($response->getBody()->getContents(), true);
             if ($result && isset($result['code']) && $result['code'] == 0) {
                 return true;
@@ -75,7 +76,7 @@ class DataPoint extends Client
     public function batchOrderPoint($param)
     {
         $response = $this->sendRequest(new Order($param));
-        if ($response->getStatusCode() == 200) {
+        if ($response && $response->getStatusCode() == 200) {
             $result = json_decode($response->getBody()->getContents(), true);
             if ($result && isset($result['code']) && $result['code'] == 0) {
                 return true;

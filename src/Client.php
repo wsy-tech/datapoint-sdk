@@ -22,7 +22,7 @@ class Client
     /** @var string */
     protected $token;
 
-    public function __construct($uri, $token, $timeout = 1.0)
+    public function __construct($uri, $token, $timeout = 0.5)
     {
         $this->token = $token;
         $this->client = new \GuzzleHttp\Client([
@@ -33,18 +33,22 @@ class Client
 
     /**
      * @param RequestAbstract $request
-     * @return ResponseInterface
+     * @return ResponseInterface|null
      */
     public function sendRequest(RequestAbstract $request)
     {
-        $params = $request->getParams();
-        $sign = Sign::sign($params, $this->token);
-        $params['sign'] = $sign;
-        $response = $this->client->post($request->getRequestPath(), [
-            'form_params' => $params,
-            'http_errors' => false,
-            'verify' => false,
-        ]);
-        return $response;
+        try {
+            $params = $request->getParams();
+            $sign = Sign::sign($params, $this->token);
+            $params['sign'] = $sign;
+            $response = $this->client->post($request->getRequestPath(), [
+                'form_params' => $params,
+                'http_errors' => false,
+                'verify' => false,
+            ]);
+            return $response;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
