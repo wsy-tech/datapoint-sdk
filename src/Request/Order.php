@@ -20,6 +20,7 @@ class Order extends RequestAbstract
     const OPERATE_STATUS_SEND = 'SEND'; // 订单发货
     const OPERATE_STATUS_CANCEL = 'CANCEL'; // 订单取消
     const OPERATE_STATUS_CLOSED = 'CLOSED'; // 订单关闭
+    const OPERATE_STATUS_SHORTAGE = 'SHORTAGE'; // 订单缺货
 
     public function getRequestPath()
     {

@@ -17,19 +17,22 @@ use WsySDK\DataPoint\Request\Order;
 class DataPoint extends Client
 {
     // 操作者
-    const OPERATE_TYPE_USER = 'USER';     //用户
-    const OPERATE_TYPE_SYSTEM = 'SYSTEM'; //系统
+    const OPERATE_TYPE_USER = RequestAbstract::OPERATE_TYPE_USER;     //用户
+    const OPERATE_TYPE_SYSTEM = RequestAbstract::OPERATE_TYPE_SYSTEM; //系统
 
     // 操作状态
-    const OPERATE_STATUS_CREATED = 'CREATED';  //创建
-    const OPERATE_STATUS_UP = 'UP';            //上架
-    const OPERATE_STATUS_DOWN = 'DOWN';        //下架
-    const OPERATE_STATUS_PAYED = 'PAYED';      //支付
-    const OPERATE_STATUS_SEND = 'SENT';        //发货
-    const OPERATE_STATUS_SENT = 'SENT';        //发货
-    const OPERATE_STATUS_CANCLE = 'CANCEL';    //取消
-    const OPERATE_STATUS_CANCEL = 'CANCEL';    //取消
-    const OPERATE_STATUS_CLOSED = 'CLOSED';    //关闭
+    const OPERATE_STATUS_CREATED = Goods::OPERATE_STATUS_CREATED;  //创建
+    const OPERATE_STATUS_UP = Goods::OPERATE_STATUS_UP;            //上架
+    const OPERATE_STATUS_DOWN = Goods::OPERATE_STATUS_DOWN;        //下架
+    const OPERATE_STATUS_TITLE_CHANGED = Goods::OPERATE_STATUS_TITLE_CHANGED; //标题变更
+    const OPERATE_STATUS_PRICE_CHANGED = Goods::OPERATE_STATUS_PRICE_CHANGED; //价格变更
+    const OPERATE_STATUS_SKU_CHANGED = Goods::OPERATE_STATUS_SKU_CHANGED; //颜色尺码变更
+    const OPERATE_STATUS_PAYED = Order::OPERATE_STATUS_PAYED;      //支付
+    const OPERATE_STATUS_SEND = Order::OPERATE_STATUS_SEND;        //发货
+    const OPERATE_STATUS_CANCLE = Order::OPERATE_STATUS_CANCEL;    //取消
+    const OPERATE_STATUS_CANCEL = Order::OPERATE_STATUS_CANCEL;    //取消
+    const OPERATE_STATUS_CLOSED = Order::OPERATE_STATUS_CLOSED;    //关闭
+    const OPERATE_STATUS_SHORTAGE = Order::OPERATE_STATUS_SHORTAGE; //订单缺货
 
     /**
      * 商品埋点接口
