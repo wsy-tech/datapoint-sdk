@@ -13,6 +13,7 @@ namespace WsySDK\DataPoint;
 
 use WsySDK\DataPoint\Request\Goods;
 use WsySDK\DataPoint\Request\Order;
+use WsySDK\DataPoint\Request\User;
 
 class DataPoint extends Client
 {
@@ -33,10 +34,13 @@ class DataPoint extends Client
     const OPERATE_STATUS_CANCEL = Order::OPERATE_STATUS_CANCEL;    //取消
     const OPERATE_STATUS_CLOSED = Order::OPERATE_STATUS_CLOSED;    //关闭
     const OPERATE_STATUS_SHORTAGE = Order::OPERATE_STATUS_SHORTAGE; //订单缺货
+    const OPERATE_STATUS_LOGIN = User::OPERATE_STATUS_LOGIN; // 用户登录
 
     /**
      * 商品埋点接口
+     *
      * @param $param
+     *
      * @return mixed
      */
     public function goodsPoint($param)
@@ -46,24 +50,21 @@ class DataPoint extends Client
 
     /**
      * 商品埋点接口 批量添加
+     *
      * @param $param
+     *
      * @return mixed
      */
     public function batchGoodsPoint($param)
     {
-        $response = $this->sendRequest(new Goods($param));
-        if ($response && $response->getStatusCode() == 200) {
-            $result = json_decode($response->getBody()->getContents(), true);
-            if ($result && isset($result['code']) && $result['code'] == 0) {
-                return true;
-            }
-        }
-        return false;
+        return $this->batchPoint(new Goods($param));
     }
 
     /**
      * 订单埋点接口
+     *
      * @param $param
+     *
      * @return mixed
      */
     public function orderPoint($param)
@@ -73,12 +74,43 @@ class DataPoint extends Client
 
     /**
      * 订单埋点接口 批量添加
+     *
      * @param $param
+     *
      * @return mixed
      */
     public function batchOrderPoint($param)
     {
-        $response = $this->sendRequest(new Order($param));
+        return $this->batchPoint(new Order($param));
+    }
+
+    /**
+     * 用户埋点接口
+     *
+     * @param $param
+     *
+     * @return bool
+     */
+    public function userPoint($param)
+    {
+        return $this->batchUserPoint([$param]);
+    }
+
+    /**
+     * 用户埋点接口 批量添加
+     *
+     * @param $param
+     *
+     * @return bool
+     */
+    public function batchUserPoint($param)
+    {
+        return $this->batchPoint(new User($param));
+    }
+
+    protected function batchPoint(RequestAbstract $requestAbstract)
+    {
+        $response = $this->sendRequest($requestAbstract);
         if ($response && $response->getStatusCode() == 200) {
             $result = json_decode($response->getBody()->getContents(), true);
             if ($result && isset($result['code']) && $result['code'] == 0) {
